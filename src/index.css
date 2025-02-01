@@ -149,6 +149,13 @@ h1 {
   margin: 10px 0;
 }
 
+.btn-group {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  justify-content: center;
+}
+
 .delete-button {
   background: #e63946;
   color: white;
@@ -158,6 +165,10 @@ h1 {
   cursor: pointer;
   font-size: 14px;
   transition: background 0.3s ease-in-out;
+}
+
+.edit-button {
+  background-color: #2bb673;
 }
 
 .delete-button:hover {

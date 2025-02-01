@@ -1,9 +1,15 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { iReactCruds } from "../../types/types";
-import { addCrudAsync, deleteCrudAsync, fetchCrudsAsync } from "./crudThunk";
+import {
+  addCrudAsync,
+  deleteCrudAsync,
+  fetchCrudsAsync,
+  updateCrudAsync,
+} from "./crudThunk";
 
 interface CrudState {
   cruds: iReactCruds[];
+  selectedItem: iReactCruds | null;
   loading: boolean;
   error: string | null;
 }
@@ -11,13 +17,18 @@ interface CrudState {
 const initialState: CrudState = {
   cruds: [],
   loading: false,
+  selectedItem: null,
   error: null,
 };
 
 const reactCrudsSlice = createSlice({
   name: "cruds",
   initialState,
-  reducers: {},
+  reducers: {
+    setSelectedItem(state, action) {
+      state.selectedItem = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchCrudsAsync.pending, (state) => {
@@ -40,6 +51,11 @@ const reactCrudsSlice = createSlice({
           state.cruds.unshift(action.payload);
         }
       )
+      .addCase(updateCrudAsync.fulfilled, (state, action) => {
+        state.cruds = state.cruds.map((crud) =>
+          crud.id === action.payload.id ? action.payload : crud
+        );
+      })
       .addCase(
         deleteCrudAsync.fulfilled,
         (state, action: PayloadAction<string>) => {
@@ -51,4 +67,5 @@ const reactCrudsSlice = createSlice({
   },
 });
 
+export const { setSelectedItem } = reactCrudsSlice.actions;
 export default reactCrudsSlice.reducer;

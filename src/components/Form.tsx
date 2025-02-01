@@ -1,16 +1,32 @@
-import React, { useState } from "react";
-import { useAppDispatch } from "../hooks/storeHooks";
-import { addCrudAsync } from "../store/crudSlice/crudThunk";
+import React, { useState, useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "../hooks/storeHooks";
+import { addCrudAsync, updateCrudAsync } from "../store/crudSlice/crudThunk";
 
 const Form: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const { selectedItem } = useAppSelector((state) => state.reactCruds);
+
+  const [id, setId] = useState<string | null>(null);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (selectedItem) {
+      setId(selectedItem.id);
+      setTitle(selectedItem.title);
+      setDescription(selectedItem.description);
+    }
+  }, [selectedItem]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (title && description) {
-      dispatch(addCrudAsync({ title, description }));
+      if (id) {
+        dispatch(updateCrudAsync({ id, title, description }));
+      } else {
+        dispatch(addCrudAsync({ title, description }));
+      }
+      setId(null);
       setTitle("");
       setDescription("");
     }
@@ -18,7 +34,7 @@ const Form: React.FC = () => {
 
   return (
     <form className="crud-form" onSubmit={handleSubmit}>
-      <h2 className="form-title">Add a New Entry</h2>
+      <h2 className="form-title">{id ? "Update Entry" : "Add a New Entry"}</h2>
 
       <div className="input-group">
         <input
@@ -39,7 +55,7 @@ const Form: React.FC = () => {
       </div>
 
       <button type="submit" className="form-button">
-        Add Entry
+        {id ? "Update Entry" : "Add Entry"}
       </button>
     </form>
   );
