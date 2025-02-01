@@ -1,0 +1,100 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+h1 {
+  @apply font-bold text-center mb-4 text-[58px];
+  background: -webkit-linear-gradient(black, theme("colors.green.400"));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.content {
+  @apply p-3;
+
+  .crud-form {
+    @apply bg-gray-900 p-5 rounded-lg shadow-lg max-w-md mx-auto text-center;
+
+    .form-title {
+      @apply text-white text-xl font-bold mb-4;
+    }
+
+    .input-group {
+      @apply mb-4;
+    }
+
+    .form-input,
+    .form-textarea {
+      @apply w-[90%] p-3 rounded border border-green-400 text-lg outline-none bg-gray-800 text-white;
+
+      &::placeholder {
+        @apply text-gray-400;
+      }
+    }
+
+    .form-textarea {
+      @apply h-24 resize-none;
+    }
+
+    .form-button {
+      @apply bg-green-400 text-gray-900 font-bold border-none py-3 px-5 rounded cursor-pointer w-full transition duration-300 ease-in-out;
+
+      &:hover {
+        @apply bg-green-500;
+      }
+    }
+  }
+
+  .list-container {
+    @apply flex flex-col items-center justify-center p-5;
+
+    .crud-list {
+      @apply list-none p-0 w-full;
+    }
+
+    .time-stamp {
+      @apply absolute left-4 bg-green-500 px-2 py-1 rounded-full text-white flex items-center justify-center text-xs leading-5;
+    }
+
+    @media (max-width: 768px) {
+      .time-stamp {
+        @apply relative max-w-[166px] mx-auto left-0 mb-1;
+      }
+    }
+  }
+
+  .crud-item {
+    @apply bg-gray-900 text-white p-4 rounded-lg my-2 shadow-md text-center min-w-[200px] relative;
+
+    .crud-title {
+      @apply text-lg font-bold text-green-400 mt-0;
+    }
+
+    .crud-description {
+      @apply text-base text-gray-300 my-2 break-words whitespace-normal;
+    }
+  }
+
+  .btn-group {
+    @apply flex gap-4 items-center justify-center;
+  }
+
+  .delete-button {
+    @apply bg-red-600 text-white border-none py-2 px-3 rounded cursor-pointer text-sm transition duration-300 ease-in-out;
+
+    &:hover {
+      @apply bg-red-700;
+    }
+  }
+
+  .edit-button {
+    @apply bg-green-600;
+    &:hover {
+      @apply bg-green-700;
+    }
+  }
+
+  .error-text {
+    @apply text-white text-lg;
+  }
+}

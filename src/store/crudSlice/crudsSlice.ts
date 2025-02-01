@@ -28,6 +28,9 @@ const reactCrudsSlice = createSlice({
     setSelectedItem(state, action) {
       state.selectedItem = action.payload;
     },
+    resetSelectedItem(state) {
+      state.selectedItem = initialState.selectedItem;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -67,5 +70,5 @@ const reactCrudsSlice = createSlice({
   },
 });
 
-export const { setSelectedItem } = reactCrudsSlice.actions;
+export const { setSelectedItem, resetSelectedItem } = reactCrudsSlice.actions;
 export default reactCrudsSlice.reducer;

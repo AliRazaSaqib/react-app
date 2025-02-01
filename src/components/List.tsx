@@ -5,32 +5,47 @@ import { Error } from "./error/Error";
 import { Button } from "./button/Button";
 import TimeStamp from "./pills/TimeStamp";
 import { deleteCrudAsync } from "../store/crudSlice/crudThunk";
-import { setSelectedItem } from "../store/crudSlice/crudsSlice";
+import {
+  resetSelectedItem,
+  setSelectedItem,
+} from "../store/crudSlice/crudsSlice";
 
 const List: React.FC = () => {
-  const { cruds, loading, error } = useAppSelector((state) => state.reactCruds);
+  const { cruds, loading, error, selectedItem } = useAppSelector(
+    (state) => state.reactCruds
+  );
   const dispatch = useAppDispatch();
+
+  if (loading) return <Loader />;
+  if (error) return <Error addClass="error-text" text={error} />;
 
   return (
     <div className="list-container">
-      {loading && <Loader />}
-      {error && <Error addClass="error-text" text={error} />}
       <ul className="crud-list">
-        {cruds.map((item) => (
-          <li key={item.id} className="crud-item">
-            <TimeStamp timeStamp={item.created_at} addClass="time-stamp" />
-            <h3 className="crud-title">{item.title}</h3>
-            <p className="crud-description">{item.description}</p>
+        {cruds.map(({ id, created_at, title, description }) => (
+          <li key={id} className="crud-item">
+            <TimeStamp timeStamp={created_at} addClass="time-stamp" />
+            <h3 className="crud-title">{title}</h3>
+            <p className="crud-description">{description}</p>
             <div className="btn-group">
               <Button
                 addClass="edit-button delete-button"
                 text="Edit"
-                onClick={() => dispatch(setSelectedItem(item))}
+                onClick={() =>
+                  dispatch(
+                    setSelectedItem({ id, created_at, title, description })
+                  )
+                }
               />
               <Button
                 addClass="delete-button"
                 text="Delete"
-                onClick={() => dispatch(deleteCrudAsync(item.id))}
+                onClick={() => {
+                  if (selectedItem?.id === id) {
+                    dispatch(resetSelectedItem());
+                  }
+                  dispatch(deleteCrudAsync(id));
+                }}
               />
             </div>
           </li>

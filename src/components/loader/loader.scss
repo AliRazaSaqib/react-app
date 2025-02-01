@@ -1,26 +1,17 @@
 .loader {
-  width: 48px;
-  height: 48px;
-  border: 2px solid black;
-  border-radius: 50%;
-  display: inline-block;
-  position: relative;
-  box-sizing: border-box;
+  @apply w-12 h-12 border-2 border-black rounded-full inline-block relative box-border;
   animation: rotation 1s linear infinite;
 }
+
 .loader::after,
 .loader::before {
   content: "";
-  box-sizing: border-box;
-  position: absolute;
+  @apply box-border absolute bg-green-500 w-1.5 h-1.5 rounded-full;
   left: 0;
   top: 0;
-  background: #2bb673;
-  width: 6px;
-  height: 6px;
   transform: translate(150%, 150%);
-  border-radius: 50%;
 }
+
 .loader::before {
   left: auto;
   top: auto;

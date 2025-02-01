@@ -4,6 +4,7 @@ import Form from "../components/Form";
 import List from "../components/List";
 import { RootState } from "../store";
 import { useGetTodos } from "../hooks/useGetTodos";
+import "./style.scss";
 
 const Home: React.FC = () => {
   const { cruds } = useSelector((state: RootState) => state.reactCruds);
