@@ -3,10 +3,12 @@ import { supabase } from "./supabaseClient";
 
 export const fetchCruds = async (): Promise<iReactCruds[]> => {
   const { data, error } = await supabase
-    .from("reactCruds")
+    .from("contents")
     .select("*")
     .order("created_at", { ascending: false });
+
   if (error) throw error;
+
   return data;
 };
 
@@ -15,7 +17,7 @@ export const addCrud = async (
   description: string
 ): Promise<iReactCruds> => {
   const { data, error } = await supabase
-    .from("reactCruds")
+    .from("contents")
     .insert([{ title, description }])
     .select();
   if (error) throw error;
@@ -28,7 +30,7 @@ export const updateCrud = async (
   description: string
 ): Promise<iReactCruds> => {
   const { data, error } = await supabase
-    .from("reactCruds")
+    .from("contents")
     .update({ title, description })
     .eq("id", id)
     .select()
@@ -39,6 +41,6 @@ export const updateCrud = async (
 };
 
 export const deleteCrud = async (id: string) => {
-  const { error } = await supabase.from("reactCruds").delete().eq("id", id);
+  const { error } = await supabase.from("contents").delete().eq("id", id);
   if (error) throw error;
 };
