@@ -18,8 +18,15 @@ export const addCrud = async (
 ): Promise<iReactCruds> => {
   const { data, error } = await supabase
     .from("contents")
-    .insert([{ title, description }])
+    .insert([
+      {
+        title,
+        description,
+        created_at: new Date().toISOString().replace("T", " ").slice(0, -1),
+      },
+    ])
     .select();
+
   if (error) throw error;
   return data[0];
 };
